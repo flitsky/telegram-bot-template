@@ -5,7 +5,10 @@ const logger = winston.createLogger({
   level: config.logging.level || "info",
   format: winston.format.combine(
     winston.format.timestamp(),
-    winston.format.json()
+    winston.format.printf(({ level, message, timestamp }) => {
+      // Add a newline character to the end of the message to improve readability
+      return `${timestamp} ${level}: ${message}\n`;
+    })
   ),
   transports: [
     new winston.transports.Console(),
